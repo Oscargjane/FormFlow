@@ -1,0 +1,6 @@
+{
+  "extends": [
+    "next", // Esta es la configuración recomendada por Next.js.
+    "prettier" // Desactiva reglas de ESLint que podrían entrar en conflicto con Prettier.
+  ]
+}
