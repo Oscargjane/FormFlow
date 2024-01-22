@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "paths": {
-      "@/*": ["./app/*"] // Configura un alias "@" para el directorio "app"
+      "@/*": ["./src/*"], // Configura un alias "@" para el directorio "app"
+      "@/public/*": ["./public/*"] // Configura un alias "@/public" para el directorio "public
     }
   }
 }
