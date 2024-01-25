@@ -4,7 +4,8 @@ import { authMiddleware } from '@clerk/nextjs';
 // Las rutas especificadas en `publicRoutes` no requerirán autenticación.
 // Todas las demás rutas requerirán que el usuario esté autenticado.
 export default authMiddleware({
-  publicRoutes: ['/'],
+  publicRoutes: ['/', '/api/webhook/clerk'],
+  ignoredRoutes: ['/api/webhook/clerk'],
 });
 
 // `config` define cómo se aplica el middleware.

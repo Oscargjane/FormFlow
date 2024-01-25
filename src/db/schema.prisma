@@ -11,13 +11,24 @@ datasource db {
 }
 
 // Model definitions
+model User {
+  id        String   @id
+  email     String   @unique
+  firstName String?
+  lastName  String?
+  forms     Form[]
+}
+
+
 model Form {
+  userId      String
   id          Int         @id @default(autoincrement())
   title       String
   description String?
   fields      Field[]
   submissions Submission[]
-}
+  user        User        @relation(fields: [userId], references: [id])
+  }
 
 model Field {
   formId  Int

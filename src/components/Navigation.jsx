@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { useEffect } from 'react';
 
-import { BrandIcon, GearIcon, DividerIcon } from '@/components/Icons';
+import { BrandIcon, GearIcon, DividerIcon } from '@/components/Icon';
 
 const Navigation = () => {
   // Obtiene el usuario y el estado de la carga del usuario
@@ -22,9 +22,7 @@ const Navigation = () => {
 
   // Si el usuario no está autenticado, se redirige al usuario a la página de inicio de sesión
   useEffect(() => {
-    if (!user && isLoaded) {
-      router.push('/sign-in');
-    }
+    !user && isLoaded ? router.push('/sign-in') : router.push('/dashboard');
   }, [user, isLoaded, router]);
 
   if (!isLoaded)
