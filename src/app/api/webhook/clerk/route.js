@@ -1,6 +1,6 @@
 import { Webhook } from 'svix';
 import { headers } from 'next/headers';
-import { createUser, updateUser, deleteUser } from '@/app/lib/actions/user.actions';
+import { createUser, updateUser, deleteUser } from '@/app/lib/actions/user.actions.js';
 
 export async function POST(req, res) {
   // Define el secreto del webhook a partir de las variables de entorno
