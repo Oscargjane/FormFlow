@@ -4,7 +4,7 @@ import gearIcon from '@/public/icons/gear-icon.svg';
 import divider from '@/public/icons/divider-icon.svg';
 
 function WrapperIcon({ path, alt, ...props }) {
-  return <Image src={path} {...props} />;
+  return <Image src={path} alt={alt} {...props} />;
 }
 
 export const BrandIcon = () => {
