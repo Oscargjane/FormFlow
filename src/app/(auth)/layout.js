@@ -1,5 +1,5 @@
 import { ClerkProvider } from '@clerk/nextjs';
-import Navigation from '@/components/Navigation';
+import Navigation from '@/components/navigation';
 import '@/app/globals.css';
 
 export default function RootLayout({ children }) {

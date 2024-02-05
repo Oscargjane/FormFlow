@@ -2,8 +2,6 @@
 
 import prisma from '@/db/client.js';
 
-// TO-DO: Realizar pruebas unitarias en cada accion del servidor
-
 /**
  * Crea un nuevo usuario en la base de datos.
  *

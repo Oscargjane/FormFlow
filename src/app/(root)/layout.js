@@ -1,7 +1,7 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
-import Navigation from '@/components/Navigation';
-import SideBar from '@/components/SideBar';
+import Navigation from '@/components/navigation';
+import SideBar from '@/components/sideBar';
 import { cn } from '@/app/lib/utils';
 import '@/app/globals.css';
 

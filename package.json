@@ -8,10 +8,14 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "prisma": {
+    "seed": "node ./src/db/seed.js"
+  },
   "dependencies": {
     "@clerk/nextjs": "^4.29.3",
     "@prisma/client": "^5.7.1",
     "clsx": "^2.1.0",
+    "faker": "^5.5.3",
     "next": "14.0.4",
     "react": "^18",
     "react-dom": "^18",

@@ -6,7 +6,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { useEffect } from 'react';
 
-import { BrandIcon, GearIcon, DividerIcon } from '@/components/Icon';
+import { BrandIcon, GearIcon, DividerIcon } from '@/components/icon';
 
 const Navigation = () => {
   // Obtiene el usuario y el estado de la carga del usuario
@@ -40,11 +40,11 @@ const Navigation = () => {
       {user ? (
         // Si el usuario está cargado, se muestra la navegación del usuario
         <>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
             <Link href="/dashboard">
               <BrandIcon className="text-neutral-500" />
             </Link>
-            {formattedPathname[0] !== 'Dashboard' && (
+            {formattedPathname[0] !== 'Dashboard' && '/' && (
               <>
                 <DividerIcon />
                 <span className="text-gray-400 text-sm ml-2">{formattedPathname}</span>

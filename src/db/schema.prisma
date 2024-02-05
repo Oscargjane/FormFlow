@@ -24,7 +24,6 @@ model Form {
   userId      String
   id          Int         @id @default(autoincrement())
   title       String
-  description String?
   fields      Field[]
   submissions Submission[]
   user        User        @relation(fields: [userId], references: [id])
