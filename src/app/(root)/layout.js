@@ -1,8 +1,8 @@
 import { ClerkProvider } from '@clerk/nextjs';
 import { Inter } from 'next/font/google';
-import Navigation from '@/components/navigation';
+import Navigation from '@/components/nav/navigation';
 import SideBar from '@/components/sideBar';
-import { cn } from '@/app/lib/utils';
+import { cn } from '@/lib/utils.js';
 import '@/app/globals.css';
 
 // Configura la fuente Inter con los subsets, pesos y variables deseados
@@ -38,21 +38,16 @@ export default function RootLayout({ children }) {
       }}
     >
       <html lang="en">
-        <body
-          className={cn(
-            'min-h-screen grid grid-rows-dashboard grid-cols-dashboard gap-4 font-sans',
-            inter.variable,
-          )}
-        >
-          <aside className="row-span-3 col-span-1 bg-white p-4">
+        <body className={cn('font-sans', inter.variable)}>
+          <div className="flex h-screen">
             <SideBar />
-          </aside>
-          <nav className="row-span-1 col-span-1 flex justify-between items-center p-5">
-            <Navigation />
-          </nav>
-          <main className="row-span-2 col-span-1 p-4 overflow-auto">
-            <div className="flex items-start justify-center">{children}</div>
-          </main>
+            <div className="flex-1">
+              <Navigation />
+              <main className="flex m-16 ml-24 max-w-5xl p-4 overflow-auto">
+                {children}
+              </main>
+            </div>
+          </div>
         </body>
       </html>
     </ClerkProvider>

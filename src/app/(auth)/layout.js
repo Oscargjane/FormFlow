@@ -1,5 +1,5 @@
 import { ClerkProvider } from '@clerk/nextjs';
-import Navigation from '@/components/navigation';
+import Navigation from '@/components/nav/navigation';
 import '@/app/globals.css';
 
 export default function RootLayout({ children }) {
@@ -21,9 +21,7 @@ export default function RootLayout({ children }) {
     >
       <html lang="en">
         <body>
-          <nav className="container fixed top-0 z-50 p-5">
-            <Navigation />
-          </nav>
+          <Navigation />
           <main className="container mx-auto">
             <div className="flex items-center justify-center min-h-screen">
               {children}
