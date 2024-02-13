@@ -1,5 +1,5 @@
 import { ClerkProvider } from '@clerk/nextjs';
-import Navigation from '@/components/nav/navigation';
+import Nav from '@/components/nav/nav.js';
 import '@/app/globals.css';
 
 export default function RootLayout({ children }) {
@@ -9,11 +9,6 @@ export default function RootLayout({ children }) {
     <ClerkProvider
       appearance={{
         variables: {
-          // *: tailwind css color theme not found
-          // TO-DO: replace with css variable color
-          // Se definen algunas variables de apariencia para los componentes de Clerk.
-          // Actualmente, estas variables están hardcodeadas, pero el comentario sugiere
-          // que deberia reemplazarlas con variables CSS en el futuro.
           colorPrimary: '#171717',
           fontFamily: 'font-sans, sans-serif',
         },
@@ -21,7 +16,7 @@ export default function RootLayout({ children }) {
     >
       <html lang="en">
         <body>
-          <Navigation />
+          <Nav />
           <main className="container mx-auto">
             <div className="flex items-center justify-center min-h-screen">
               {children}

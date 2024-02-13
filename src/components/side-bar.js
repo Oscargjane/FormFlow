@@ -2,8 +2,8 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Icon from '@/components/ui/icon.js';
 import { Button } from '@/components/ui/button.js';
-import UserMenu from '@/components/userMenu.js';
-import SideBarNavigation from '@/components/nav/sideBarNavigation.js';
+import UserMenu from '@/components/user-menu.js';
+import SideBarNav from '@/components/nav/side-bar-nav.js';
 
 const SideBar = () => {
   return (
@@ -14,7 +14,7 @@ const SideBar = () => {
             <Image src="/logo.svg" alt="Logo" width={154} height={62} priority />
           </Link>
         </div>
-        <SideBarNavigation />
+        <SideBarNav />
       </div>
       <div className="w-full p-3 border-t">
         <div className="w-full flex mb-3 justify-center">

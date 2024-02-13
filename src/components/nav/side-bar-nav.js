@@ -5,7 +5,7 @@ import { usePathname } from 'next/navigation';
 import Icon from '@/components/ui/icon.js';
 import { Button } from '@/components/ui/button.js';
 
-const SideBarNavigation = () => {
+const SideBarNav = () => {
   const pathname = usePathname();
 
   return pathname === '/dashboard' ? (
@@ -44,4 +44,4 @@ const SideBarNavigation = () => {
     </nav>
   );
 };
-export default SideBarNavigation;
+export default SideBarNav;

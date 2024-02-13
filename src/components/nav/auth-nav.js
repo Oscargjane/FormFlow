@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 
-const AuthNavigation = () => {
+const AuthNav = () => {
   return (
     <nav className="container fixed top-0 z-50 p-5">
       <Link href="/sign-in">
@@ -11,4 +11,4 @@ const AuthNavigation = () => {
   );
 };
 
-export default AuthNavigation;
+export default AuthNav;

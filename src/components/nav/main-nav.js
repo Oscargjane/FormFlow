@@ -2,7 +2,7 @@ import Breadcrumb from '@/components/nav/breadcrumb.js';
 import { Button } from '@/components/ui/button.js';
 import Icon from '@/components/ui/icon.js';
 
-const MainNavigation = () => {
+const MainNav = () => {
   return (
     <nav className="h-[74px] flex justify-between items-center p-5 bg-white border-b border-neutral-200">
       <Breadcrumb />
@@ -14,4 +14,4 @@ const MainNavigation = () => {
   );
 };
 
-export default MainNavigation;
+export default MainNav;

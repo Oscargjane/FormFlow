@@ -1,17 +1,9 @@
 import { ClerkProvider } from '@clerk/nextjs';
-import { Inter } from 'next/font/google';
-import Navigation from '@/components/nav/navigation';
-import SideBar from '@/components/sideBar';
+import { inter } from '@/config/fontConfig.js';
+import Nav from '@/components/nav/nav';
+import SideBar from '@/components/side-bar';
 import { cn } from '@/lib/utils.js';
 import '@/app/globals.css';
-
-// Configura la fuente Inter con los subsets, pesos y variables deseados
-const inter = Inter({
-  subsets: ['latin'],
-  weight: ['400', '500', '700'],
-  variable: '--font-inter',
-  display: 'swap',
-});
 
 /**
  * Componente de layout raíz.
@@ -27,11 +19,6 @@ export default function RootLayout({ children }) {
     <ClerkProvider
       appearance={{
         variables: {
-          // *: tailwind css color theme not found
-          // TO-DO: replace with css variable color
-          // Se definen algunas variables de apariencia para los componentes de Clerk.
-          // Actualmente, estas variables están hardcodeadas, pero el comentario sugiere
-          // que deberia reemplazarlas con variables CSS en el futuro.
           colorPrimary: '#171717',
           fontFamily: 'font-sans, sans-serif',
         },
@@ -42,7 +29,7 @@ export default function RootLayout({ children }) {
           <div className="flex h-screen">
             <SideBar />
             <div className="flex-1">
-              <Navigation />
+              <Nav />
               <main className="flex m-16 ml-24 max-w-5xl p-4 overflow-auto">
                 {children}
               </main>

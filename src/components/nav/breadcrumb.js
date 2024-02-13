@@ -1,9 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { getFormById } from '@/lib/actions/form.actions.js';
 import { useState, useEffect, useMemo } from 'react';
 import Icon from '@/components/ui/icon.js';
+import { cn } from '@/lib/utils.js';
 
 const Breadcrumb = () => {
   const pathname = usePathname(); // Obtiene la ruta actual
@@ -41,8 +43,6 @@ const Breadcrumb = () => {
     // Si la ruta es , usamos el título del formulario
     if (segments[0] === 'Editor' && formTitle) {
       return [formTitle];
-    } else if (!formTitle) {
-      return ['Loading...'];
     }
 
     // Si la ruta es '/dashboard', mostrar 'Home'
@@ -53,15 +53,25 @@ const Breadcrumb = () => {
     return segments;
   }, [pathname, formTitle]);
 
-  // Estilos reutilizables
-  const iconStyle = 'w-6 h-6 text-neutral-400';
+  const pathnameStyles = 'inline-block text-neutral-600 font-medium';
 
   return (
     <div className="flex items-center">
-      <Icon name="Folder" className={iconStyle} />
-      <div className="inline-block text-neutral-600 font-medium ml-2">
-        {formattedPathname}
-      </div>
+      {formattedPathname[0] === 'Editor' ? (
+        <>
+          <Link href="/dashboard">
+            <Icon name="Home" className="w-4 h-4 mr-8 text-neutral-600" />
+          </Link>
+          <div className={cn(pathnameStyles, 'text-sm text-neutral-400')}>
+            {formattedPathname.join(' / ')}
+          </div>
+        </>
+      ) : (
+        <>
+          <Icon name="Folder" className="w-6 h-6 mr-2 text-neutral-400" />
+          <div className={pathnameStyles}>{formattedPathname.join(' / ')}</div>
+        </>
+      )}
     </div>
   );
 };
