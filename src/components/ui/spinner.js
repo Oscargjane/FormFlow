@@ -1,9 +1,10 @@
-const Spinner = ({ size = '10' }) => {
+const Spinner = ({ size = '10', color }) => {
   const sizeClass = `h-${size} w-${size}`;
+  const colorClass = `border-${color}-500`;
   return (
     <div className="flex justify-center items-center">
       <div
-        className={`animate-spin rounded-full border-t-2 border-b-2 border-yellow-500 ${sizeClass}`}
+        className={`animate-spin rounded-full border-t-2 border-b-2 ${colorClass} ${sizeClass}`}
       ></div>
     </div>
   );

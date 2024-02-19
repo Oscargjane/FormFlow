@@ -3,6 +3,7 @@ import config from '@root/tailwind.config.js';
 import { cn } from '@/lib/utils.js';
 import { ClerkProvider } from '@clerk/nextjs';
 import NextTopLoader from 'nextjs-toploader';
+import { Toaster } from '@/components/ui/toaster.js';
 import '@/app/globals.css';
 
 const { colors } = config.theme.extend;
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <body className={cn('font-sans', inter.variable)}>
           <NextTopLoader color={colors.yellow['400']} />
           {children}
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

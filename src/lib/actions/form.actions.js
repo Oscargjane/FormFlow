@@ -41,11 +41,22 @@ export async function getFormById(id) {
 }
 
 export async function createForm(newForm) {
+  const { userId } = auth();
+
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) {
+    throw new Error('Error: User not found');
+  }
   try {
     const form = await prisma.form.create({
       data: {
         title: newForm.title,
         fields: newForm.fields,
+        user: {
+          connect: {
+            id: userId,
+          },
+        },
       },
     });
 

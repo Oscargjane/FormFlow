@@ -1,15 +1,24 @@
 import Breadcrumb from '@/components/nav/breadcrumb.js';
-import { Button } from '@/components/ui/button.js';
-import Icon from '@/components/ui/icon.js';
+import CreateFormBtn from '@/components/create-form-btn.js';
+
+/**
+ * MainNav Component
+ *
+ * Este componente representa la barra de navegación principal de la aplicación.
+ * Contiene el componente Breadcrumb, que muestra la ruta de navegación actual, y el componente CreateFormBtn, que es un botón para crear un nuevo formulario.
+ *
+ * @component
+ * @example
+ * return (
+ *   <MainNav />
+ * )
+ */
 
 const MainNav = () => {
   return (
     <nav className="h-[74px] flex justify-between items-center p-5 bg-white border-b border-neutral-200">
       <Breadcrumb />
-      <Button className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700">
-        <Icon name="Plus" className="w-4 h-4" />
-        <span>New form</span>
-      </Button>
+      <CreateFormBtn />
     </nav>
   );
 };
