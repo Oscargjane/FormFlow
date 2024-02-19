@@ -60,9 +60,9 @@ const Breadcrumb = () => {
       {formattedPathname[0] === 'Editor' ? (
         <>
           <Link href="/dashboard">
-            <Icon name="Home" className="w-4 h-4 mr-8 text-neutral-600" />
+            <Icon name="Home" className="w-[18px] h-[18px] mr-6 text-neutral-600" />
           </Link>
-          <div className={cn(pathnameStyles, 'text-sm text-neutral-400')}>
+          <div className={cn(pathnameStyles, 'text-sm text-neutral-300')}>
             {formattedPathname.join(' / ')}
           </div>
         </>
