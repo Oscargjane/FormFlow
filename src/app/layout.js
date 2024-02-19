@@ -1,13 +1,15 @@
-import { ClerkProvider } from '@clerk/nextjs';
 import { inter } from '@/config/fontConfig.js';
-import Nav from '@/components/nav/nav';
-import SideBar from '@/components/side-bar';
+import config from '@root/tailwind.config.js';
 import { cn } from '@/lib/utils.js';
+import { ClerkProvider } from '@clerk/nextjs';
+import NextTopLoader from 'nextjs-toploader';
 import '@/app/globals.css';
+
+const { colors } = config.theme.extend;
 
 /**
  * Componente de layout raíz.
- * Este componente envuelve todas las páginas y proporciona la navegación y la barra lateral.
+ * Este componente envuelve todas las páginas de la aplicación.
  * También configura Clerk para la autenticación y la gestión de usuarios.
  *
  * @param {object} props - Las propiedades del componente.
@@ -16,25 +18,20 @@ import '@/app/globals.css';
  */
 export default function RootLayout({ children }) {
   return (
+    // Configuración del proveedor de Clerk
     <ClerkProvider
       appearance={{
         variables: {
-          colorPrimary: '#171717',
+          // Configuración del color primario y la fuente
+          colorPrimary: colors.neutral['900'],
           fontFamily: 'font-sans, sans-serif',
         },
       }}
     >
       <html lang="en">
         <body className={cn('font-sans', inter.variable)}>
-          <div className="flex h-screen">
-            <SideBar />
-            <div className="flex-1">
-              <Nav />
-              <main className="flex m-16 ml-24 max-w-5xl p-4 overflow-auto">
-                {children}
-              </main>
-            </div>
-          </div>
+          <NextTopLoader color={colors.yellow['400']} />
+          {children}
         </body>
       </html>
     </ClerkProvider>

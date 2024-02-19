@@ -1,3 +1,4 @@
+const colors = require('tailwindcss/colors');
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ['class'],
@@ -14,6 +15,10 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ['var(--font-inter)', 'sans-serif'],
+      },
+      colors: {
+        neutral: colors.neutral,
+        yellow: colors.yellow,
       },
       keyframes: {
         'accordion-down': {
