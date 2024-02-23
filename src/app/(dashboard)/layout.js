@@ -1,4 +1,4 @@
-import SideBar from '@/components/side-bar.js';
+import SideBar from '@/components/sidebar.js';
 import Nav from '@/components/nav/nav.js';
 
 /**
@@ -12,11 +12,11 @@ import Nav from '@/components/nav/nav.js';
  */
 export default function DashboardLayout({ children }) {
   return (
-    <div className="flex h-screen">
-      <SideBar />
-      <div className="flex-1">
-        <Nav />
-        <main className="flex w-full p-16 overflow-auto justify-center items-center">
+    <div className="flex flex-col h-screen">
+      <Nav />
+      <div className="flex flex-row h-full">
+        <SideBar />
+        <main className="flex-1 p-16 overflow-auto justify-center items-center">
           {children}
         </main>
       </div>
