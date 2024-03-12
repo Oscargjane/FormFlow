@@ -8,41 +8,51 @@ import Icon from '@/components/ui/icon.js';
 import { cn } from '@/lib/utils.js';
 
 /**
- * Breadcrumb Component
+ * Hook personalizado para buscar el título del formulario.
  *
- * Este componente muestra una ruta de navegación (breadcrumb) basada en la ruta actual de la aplicación.
- * Si la ruta comienza con '/editor/', muestra un enlace a '/dashboard' y el título del formulario actual.
- * Si la ruta no comienza con '/editor/', muestra un icono de carpeta y la ruta actual formateada.
- *
- * @component
- * @example
- * return (
- *   <Breadcrumb />
- * )
+ * @param {number} formId - El ID del formulario.
+ * @param {string} pathname - La ruta actual.
+ * @returns {string} El título del formulario o un mensaje de error.
  */
-const Breadcrumb = () => {
-  const pathname = usePathname(); // Obtiene la ruta actual
-
-  // Divide la ruta en segmentos y obtiene el ID del formulario
-  const pathSegments = pathname.split('/');
-  const formId = parseInt(pathSegments[2], 10);
-
-  // Estado para almacenar el título del formulario
+const useFormTitle = (formId, pathname) => {
   const [formTitle, setFormTitle] = useState(undefined);
 
-  // Hook useEffect para buscar el título del formulario cuando cambia el ID del formulario
   useEffect(() => {
+    /**
+     * Función para buscar el título del formulario.
+     * Si la ruta actual comienza con '/editor/' y el formId es válido,
+     * busca el título del formulario. Si no, establece el título del formulario en null.
+     */
     const fetchFormTitle = async () => {
-      // Si esta en la ruta del editor y el ID del formulario es válido, busca el título del formulario
       if (pathname.startsWith('/editor/') && formId) {
-        const form = await getFormById(formId);
-        setFormTitle(form.title);
+        try {
+          const form = await getFormById(formId);
+          setFormTitle(form?.title || 'Sin título');
+        } catch (error) {
+          console.error(error);
+          setFormTitle('Error al buscar el título del formulario');
+        }
       } else {
         setFormTitle(null);
       }
     };
     fetchFormTitle();
-  }, [formId]);
+  }, [formId, pathname]);
+
+  return formTitle;
+};
+
+/**
+ * Componente Breadcrumb.
+ * Muestra una ruta de navegación basada en la ruta actual.
+ * Si la ruta comienza con '/editor/', muestra un enlace a la página de inicio y el título del formulario.
+ * Si no, muestra un icono de carpeta y la ruta formateada.
+ */
+const Breadcrumb = () => {
+  const pathname = usePathname();
+  const pathSegments = pathname.split('/');
+  const formId = parseInt(pathSegments[2], 10);
+  const formTitle = useFormTitle(formId, pathname);
 
   // Se usa el hook useMemo para formatear la ruta actual
   // Cada segmento de la ruta comienza con una letra mayúscula
@@ -52,13 +62,12 @@ const Breadcrumb = () => {
       .filter(Boolean)
       .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1));
 
-    // Si la ruta es '/dashboard', mostrar 'Home'
     if (segments.join('/') === 'Dashboard') {
       return ['Home'];
     }
 
     return segments;
-  }, [pathname, formTitle]);
+  }, [pathname]);
 
   const pathnameStyles = 'inline-block text-neutral-600 font-medium';
 

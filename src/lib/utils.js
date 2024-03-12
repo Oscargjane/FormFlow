@@ -14,3 +14,7 @@ import { twMerge } from 'tailwind-merge';
 export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
+
+export function idGenerator() {
+  return Math.floor(Math.random() * 10001).toString();
+}

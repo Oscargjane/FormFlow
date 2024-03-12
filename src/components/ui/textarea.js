@@ -6,15 +6,13 @@ const Textarea = React.forwardRef(({ className, ...props }, ref) => {
   const innerRef = React.useRef(null);
   const textareaRef = ref || innerRef;
 
-  if (!textareaRef.current) {
-    React.useEffect(() => {
-      const currentRef = textareaRef.current;
-      if (currentRef) {
-        currentRef.style.height = 'auto';
-        currentRef.style.height = `${currentRef.scrollHeight}px`;
-      }
-    }, [props.value, textareaRef]);
-  }
+  React.useEffect(() => {
+    const currentRef = textareaRef.current;
+    if (currentRef) {
+      currentRef.style.height = 'auto';
+      currentRef.style.height = `${currentRef.scrollHeight}px`;
+    }
+  }, [props.value, textareaRef]);
 
   return (
     <textarea
