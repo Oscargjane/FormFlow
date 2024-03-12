@@ -2,7 +2,14 @@
 
 import SideBar from '@/components/sidebar.js';
 import Nav from '@/components/nav/nav.js';
-import { DndContext } from '@dnd-kit/core';
+import { DndContext, MouseSensor, useSensor, useSensors } from '@dnd-kit/core';
+
+// Configuración del sensor
+const sensorOptions = {
+  activationConstraint: {
+    distance: 10, // 10px
+  },
+};
 
 /**
  * Componente DashboardLayout.
@@ -21,8 +28,11 @@ import { DndContext } from '@dnd-kit/core';
  * @returns {ReactElement} El elemento del layout del dashboard.
  */
 export default function DashboardLayout({ children }) {
+  const mouseSensor = useSensor(MouseSensor, sensorOptions);
+  const sensors = useSensors(mouseSensor);
+
   return (
-    <DndContext>
+    <DndContext sensors={sensors}>
       <div className="flex flex-col h-screen">
         <Nav />
         <div className="flex flex-row h-full">
