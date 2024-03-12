@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "prisma": {
-    "seed": "node ./src/db/seed.js"
+    "schema": "src/db/schema.prisma"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.3",

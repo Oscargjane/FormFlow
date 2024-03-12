@@ -6,6 +6,7 @@ import Icon from '@/components/ui/icon.js';
 import Breadcrumb from '@/components/nav/breadcrumb.js';
 import { Button } from '@/components/ui/button.js';
 import { cn } from '@/lib/utils.js';
+import SaveFormBtn from '@/components/save-form-btn.js';
 
 // Elementos de navegación
 const navItems = [
@@ -63,10 +64,7 @@ const FormEditorNav = ({ formId }) => {
         })}
       </div>
       <div className="flex items-center space-x-4">
-        <Button variant="outline">
-          <Icon name="Save" className="w-4 h-4 mr-2" />
-          <span>Save</span>
-        </Button>
+        <SaveFormBtn id={formId} />
         <Button className="px-4 py-0">
           <Icon name="ArrowUpToLine" className="w-4 h-4 mr-2" />
           <span>Publish</span>

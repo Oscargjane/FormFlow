@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 import { createForm } from '@/lib/actions/form.actions.js';
 import Icon from '@/components/ui/icon.js';
-import Spinner from '@/components/ui/spinner.js';
+import { Spinner } from '@/components/ui/spinner.js';
 import { Button } from '@/components/ui/button.js';
 import { toast } from '@/components/ui/use-toast.js';
 import {
@@ -102,7 +102,7 @@ const CreateFormBtn = () => {
             {!form.formState.isSubmitting && <span>Continue</span>}
             {form.formState.isSubmitting && (
               <>
-                <Spinner size="4" color="neutral" />
+                <Spinner size="4" />
                 <span className="ml-2">Please wait</span>
               </>
             )}

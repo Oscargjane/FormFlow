@@ -19,23 +19,14 @@ model User {
   forms     Form[]
 }
 
-
 model Form {
   userId      String
   id          Int         @id @default(autoincrement())
+  createdAt   DateTime    @default(now())
   title       String
-  fields      Field[]
+  fields      String      @default("[]")
   submissions Submission[]
   user        User        @relation(fields: [userId], references: [id])
-  }
-
-model Field {
-  formId  Int
-  id      Int    @id @default(autoincrement())
-  type    String
-  label   String
-  options Json
-  form    Form   @relation(fields: [formId], references: [id])
 }
 
 

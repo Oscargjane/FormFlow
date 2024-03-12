@@ -1,7 +1,11 @@
-import Spinner from '@/components/ui/spinner.js';
+import { Spinner } from '@/components/ui/spinner.js';
 
 const Loading = () => {
-  return <Spinner size="12" />;
+  return (
+    <div className="flex justify-center items-center h-full w-full">
+      <Spinner color="yellow" />
+    </div>
+  );
 };
 
 export default Loading;
