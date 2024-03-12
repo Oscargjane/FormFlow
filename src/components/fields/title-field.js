@@ -1,48 +1,92 @@
-import { Label } from '@/components/ui/label.js';
+'use client';
 
-// se definen los atributos extra que tendrá el elemento
+import { useEffect, useCallback } from 'react';
+import { useForm } from 'react-hook-form';
+import { useEditor } from '@/components/hooks/use-editor.js';
+import { Input } from '@/components/ui/input.js';
+import { Form, FormField, FormItem, FormControl } from '@/components/ui/form.js';
+
+const type = 'TitleField';
+const INITIAL_VALUE = '';
+
 const extraAttributes = {
-  title: 'Title field',
+  label: 'Title field',
+  placeholderText: 'Type here...',
 };
 
-// se define el tipo de elemento
-const type = 'TitleField';
+const FormFieldComponent = ({ control, applyChanges }) => (
+  <FormField
+    control={control}
+    name="title"
+    render={({ field }) => (
+      <FormItem>
+        <FormControl>
+          <Input
+            {...field}
+            onChange={(e) => {
+              field.onChange(e.target.value);
+              applyChanges();
+            }}
+            placeholder={extraAttributes.placeholderText}
+            className="resize-none focus:outline-none focus:ring-0 border-0 rounded-none bg-transparent w-full min-h-min placeholder:text-neutral-400 placeholder:text-base text-base text-neutral-800 focus-visible:ring-offset-0 focus-visible:ring-0 "
+          />
+        </FormControl>
+      </FormItem>
+    )}
+  />
+);
 
-/**
- * FormEditorComponent es un componente que se utiliza para editar el elemento en el editor de formularios.
- * Recibe un objeto elementInstance como prop, que contiene los atributos del elemento.
- */
-const FormEditorComponent = ({ elementInstance }) => {
-  const { title } = elementInstance.extraAttributes;
+const FormEditorComponent = ({ elementInstance: element }) => {
+  if (!element || !element.extraAttributes) {
+    throw new Error('Error: Element or element.extraAttributes is undefined');
+  }
+  const { updateElement } = useEditor();
+
+  const form = useForm({
+    mode: 'onSubmit',
+    defaultValues: {
+      title: INITIAL_VALUE,
+    },
+  });
+
+  useEffect(() => {
+    form.reset({ title: element.value });
+  }, [element, form]);
+
+  const applyChanges = useCallback(() => {
+    const values = form.getValues();
+    const { title } = values;
+
+    const updatedElement = {
+      ...element,
+      value: title,
+      extraAttributes: { ...element.extraAttributes },
+    };
+    updateElement(element.id, updatedElement);
+  }, [form, element, updateElement]);
+
   return (
-    <div className="flex flex-col gap-2 w-full">
-      <Label className="text-muted-foreground">Title field</Label>
-      <p className="text-xl">{title}</p>
-    </div>
+    <Form {...form}>
+      <form className="w-full">
+        <FormFieldComponent control={form.control} applyChanges={applyChanges} />
+      </form>
+    </Form>
   );
 };
 
-/**
- * FormComponent es un componente que se utiliza para renderizar el elemento en el formulario final.
- * Recibe un objeto elementInstance como prop, que contiene los atributos del elemento.
- */
-const FormComponent = ({ elementInstance }) => {
-  const { title } = elementInstance.extraAttributes;
-  return <p className="text-xl">{title}</p>;
+const FormComponent = ({ elementInstance: element }) => {
+  const { value } = element;
+  return <p>{value}</p>;
 };
 
-// TO-DO: Implement PropertiesComponent in the future to allow users to edit the title field
-
-// se exporta el elemento
 export const TitleFieldFormElement = {
   type,
-  // la función construct crea una nueva instancia de este componente
   construct: (id) => ({
     id,
     type,
+    value: INITIAL_VALUE,
     extraAttributes,
   }),
-  // El objeto designerBtnElement define cómo se ve el botón de este componente en el editor de formularios
   editorBtnElement: {
     icon: 'Heading1',
     label: 'Title',

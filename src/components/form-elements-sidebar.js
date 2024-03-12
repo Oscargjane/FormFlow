@@ -1,14 +1,13 @@
 import SidebarBtnElement from '@/components/element-btn-sidebar.js';
 import { FormElements } from '@/components/form-elements.js';
 
-/**
- * FormElementsSidebar es un componente que renderiza una barra lateral con botones para cada elemento del formulario.
- * Cada botón es un SidebarBtnElement que representa un tipo de elemento del formulario.
- */
-function FormElementsSidebar() {
-  // Lista de elementos del formulario para renderizar
-  const formElementsList = [FormElements.TitleField, FormElements.ParagraphField];
+const formElementsList = [
+  FormElements.TitleField,
+  FormElements.ParagraphField,
+  FormElements.DividerField,
+];
 
+function FormElementsSidebar() {
   return (
     <aside className="w-full h-full bg-neutral-50 flex flex-col border-r border-neutral-300  pt-4 px-3 pb-6 max-w-[300px] min-w-[270px]">
       <div className="flex flex-col">
