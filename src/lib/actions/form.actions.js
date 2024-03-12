@@ -61,13 +61,9 @@ export async function createForm(newForm) {
     const user = await getCurrentUser();
     const form = await prisma.form.create({
       data: {
+        userId: user.id,
         title: newForm.title,
         fields: newForm.fields,
-        user: {
-          connect: {
-            id: user.id,
-          },
-        },
       },
     });
 

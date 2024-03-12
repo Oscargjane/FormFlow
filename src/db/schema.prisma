@@ -10,23 +10,13 @@ datasource db {
   directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-// Model definitions
-model User {
-  id        String   @id
-  email     String   @unique
-  firstName String?
-  lastName  String?
-  forms     Form[]
-}
-
 model Form {
-  userId      String
   id          Int         @id @default(autoincrement())
+  userId      String
   createdAt   DateTime    @default(now())
   title       String
   fields      String      @default("[]")
   submissions Submission[]
-  user        User        @relation(fields: [userId], references: [id])
 }
 
 
