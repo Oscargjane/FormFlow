@@ -21,9 +21,9 @@ const Spinner = React.forwardRef(({ size = '10', color = 'neutral', className },
 
   return (
     <Icon
-      name="Loader2"
+      name="LoaderCircle"
       className={cn(
-        `flex justify-center items-center ${sizeClass} ${colorClass}`,
+        `animate-spin flex justify-center items-center ${sizeClass} ${colorClass}`,
         className,
       )}
       ref={ref}

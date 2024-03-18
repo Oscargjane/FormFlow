@@ -89,7 +89,7 @@ export const ParagraphFieldFormElement = {
     extraAttributes,
   }),
   editorBtnElement: {
-    icon: 'GanttChartSquare',
+    icon: 'SquareGanttChart',
     label: 'Paragraph',
   },
   formEditorComponent: FormEditorComponent,
