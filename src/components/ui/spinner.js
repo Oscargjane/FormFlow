@@ -12,6 +12,7 @@ const Spinner = React.forwardRef(({ size = '10', color = 'neutral', className },
     10: 'h-10 w-10',
   };
   const colorMap = {
+    white: 'text-white',
     neutral: 'text-neutral-500',
     yellow: 'text-yellow-500',
   };

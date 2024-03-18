@@ -1,11 +1,11 @@
 'use client';
 
+import { updateFormTitle } from '@/lib/actions/form.actions.js';
 import { formSchema } from '@/schemas/form.js';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
-import { createForm } from '@/lib/actions/form.actions.js';
-import Icon from '@/components/ui/icon.js';
+import { useState } from 'react';
 import { Spinner } from '@/components/ui/spinner.js';
 import { Button } from '@/components/ui/button.js';
 import { toast } from '@/components/ui/use-toast.js';
@@ -26,8 +26,10 @@ import {
 } from '@/components/ui/form.js';
 import { Input } from '@/components/ui/input.js';
 
-const CreateFormBtn = () => {
+const RenameFormBtn = ({ formId, onClick }) => {
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -36,13 +38,25 @@ const CreateFormBtn = () => {
   });
 
   const onSubmit = async (values) => {
+    const { title } = values;
+
+    if (!title) {
+      toast({
+        title: 'Error',
+        description: 'Form name cannot be empty',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     try {
-      const { id } = await createForm(values);
+      await updateFormTitle(formId, title);
       toast({
         title: 'Success',
-        description: 'Form created successfully',
+        description: 'Form renamed successfully',
       });
-      router.push(`/editor/${id}/edit`);
+      setIsOpen(false);
+      router.refresh();
     } catch (error) {
       toast({
         title: 'Error',
@@ -53,11 +67,10 @@ const CreateFormBtn = () => {
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700">
-          <Icon name="Plus" className="w-4 h-4" />
-          <span>New form</span>
+        <Button className="w-full rounded-none bg-transparent text-neutral-800 hover:bg-neutral-100 focus:outline-none focus:ring-0 focus-visible:ring-0">
+          <span>Rename</span>
         </Button>
       </DialogTrigger>
       <DialogContent>
@@ -72,7 +85,7 @@ const CreateFormBtn = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <Input {...field} />
+                    <Input {...field} aria-label="Form title" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -84,8 +97,8 @@ const CreateFormBtn = () => {
           <Button
             onClick={form.handleSubmit(onSubmit)}
             disabled={form.formState.isSubmitting}
-            className="w-full mt-4"
-            aria-label="Continue to create form"
+            className="w-full mt-4 "
+            aria-label="Continue to rename form"
           >
             {!form.formState.isSubmitting && <span>Continue</span>}
             {form.formState.isSubmitting && (
@@ -101,4 +114,4 @@ const CreateFormBtn = () => {
   );
 };
 
-export default CreateFormBtn;
+export default RenameFormBtn;
