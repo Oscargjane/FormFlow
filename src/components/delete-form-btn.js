@@ -55,12 +55,12 @@ const DeleteFormBtn = ({ formId, formTitle }) => {
           <DialogTitle className="text-lg font-medium">Delete this form?</DialogTitle>
         </DialogHeader>
         <p className="text-sm mt-1">
-          You're about to delete{' '}
+          You&apos;re about to delete{' '}
           <span className="font-semibold">{truncateTitle(formTitle)}</span> and
           <span className="font-semibold"> all the responses </span>
           stored in FormFlowApp for this form. It will be{' '}
-          <span className="text-red-500 font-semibold">gone forever</span> and we won't be
-          able to recover it.
+          <span className="text-red-500 font-semibold">gone forever</span> and we
+          won&apos;t be able to recover it.
         </p>
         <Label className="flex items-center gap-2 mt-4">
           <Input
@@ -71,7 +71,7 @@ const DeleteFormBtn = ({ formId, formTitle }) => {
             aria-label="Confirmation checkbox"
           />
           <span className="text-base font-normal">
-            Yes, delete "{truncateTitle(formTitle)}"
+            Yes, delete &quot;{truncateTitle(formTitle)}&quot;
           </span>
         </Label>
         <DialogFooter>
