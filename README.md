@@ -1,79 +1,76 @@
-# FormFlow
+<img src="public/logo-white.svg" alt="Logo" width="200"/>
+
+---
 
 ![Badge](https://img.shields.io/badge/FormFlow-v1.0.0-green)
 
-<img src="public/logo.svg" alt="Logo" width="200"/>
+FormFlow is an application under development that I designed to facilitate the quick and customized creation of forms. Currently, I am working on adding more form elements, improving editing functionalities, and implementing additional features. These will allow the automation of workflows by directly sending form responses to the user's Notion database. Once completed, this integration with Notion will make FormFlow the ideal tool for those who need to collect external information and use Notion as their main management tool. Please note that some of these features are still under development and will be implemented soon.
 
-FormFlow es una aplicación en desarrollo que diseñé para facilitar la creación rápida y personalizada de formularios. Actualmente, estoy trabajando en agregar más elementos de formulario, mejorar las funcionalidades de edición e implementar características adicionales. Estas permitirán automatizar flujos de trabajo mediante el envío directo de respuestas de formularios a la base de datos de Notion del usuario. Una vez completada, esta integración con Notion convertirá a FormFlow en la herramienta ideal para aquellos que necesitan recopilar información externa y utilizan Notion como su principal herramienta de gestión. Por favor, tenga en cuenta que algunas de estas características aún están en desarrollo y se implementarán próximamente.
+## Table of Contents
 
-## Tabla de Contenidos
-
-- [Instalación](#instalación)
-- [Caracteristicas](#Caracteristicas)
-- [Contribución](#contribución)
+- [Installation](#installation)
+- [Features](#features)
+- [Contribution](#contribution)
 - [Roadmap](#roadmap)
-- [Licencia](#licencia)
-- [Contacto](#contacto)
+- [License](#license)
+- [Contact](#contact)
 
-## Instalación
+## Installation
 
-Para instalar FormFlow, sigue estos pasos:
+To install FormFlow, follow these steps:
 
-1. Clona el repositorio: `git clone https://github.com/Oscargjane/FormFlow.git`
-2. Navega al directorio del proyecto: `cd FormFlow`
-3. Instala las dependencias: `npm install`
-4. Configura las variables de entorno. Copia el archivo `.env.example` a `.env` y completa las variables necesarias: `cp .env.example .env`
-5. Construye el proyecto: `npm run build`
-6. Inicia la aplicación: `npm run dev`
+1. Clone the repository: `git clone https://github.com/Oscargjane/FormFlow.git`
+2. Navigate to the project directory: `cd FormFlow`
+3. Install the dependencies: `npm install`
+4. Set up the environment variables. Copy the `.env.example` file to `.env` and fill in the necessary variables: `cp .env.example .env`
+5. Build the project: `npm run build`
+6. Start the application: `npm run dev`
 
-## Caracteristicas
+## Features
 
-FormFlow ofrece las siguientes características:
+FormFlow offers the following features:
 
-- **Registro e inicio de sesión de usuarios**: Los usuarios pueden crear una cuenta y acceder a ella para guardar y gestionar sus formularios.
+- **User registration and login**: Users can create an account and log in to save and manage their forms.
+- **Form creation**: Users can create forms with text fields. The addition of more field types, such as multiple choice and checkboxes, is a priority and will be added in future updates.
+- **Form editing**: Forms can be edited after being created, allowing users to update and improve their forms over time.
+- **Form management**: Users can view all their forms in a dashboard, where they can rename and delete specific forms. The ability to share forms is under development and will be added in future updates.
 
-- **Creación de formularios**: Los usuarios pueden crear formularios con campos de texto. La adición de más tipos de campos, como selección múltiple y casillas de verificación, es una prioridad y se añadirá en futuras actualizaciones.
+Please note that FormFlow is under development and more features will be added in the future. This project is the result of a Master's Final Project and is available as open source so others can learn and contribute.
 
-- **Edición de formularios**: Los formularios pueden ser editados después de ser creados, permitiendo a los usuarios actualizar y mejorar sus formularios con el tiempo.
+## Contribution
 
-- **Gestión de formularios**: Los usuarios pueden ver todos sus formularios en un panel de control, donde pueden renombrar y eliminar formularios específicos. La capacidad de compartir formularios está en desarrollo y se añadirá en futuras actualizaciones.
+I'm very glad that you're considering contributing. At the moment, I'm managing the project alone, but I'm looking for enthusiasts who want to join and help take FormFlow to the next level.
 
-Por favor, ten en cuenta que FormFlow está en desarrollo y se añadirán más características en el futuro. Este proyecto es el resultado de un Trabajo Final de Máster y está disponible como código abierto para que otros puedan aprender y contribuir.
+If you're passionate about improving workflow efficiency and have ideas for new features or improvements, I'd love for you to join this project.
 
-## Contribución
+Here are some simple steps on how you can contribute to FormFlow:
 
-Me alegra mucho que estés considerando contribuir. De momento, estoy llevando el proyecto yo solo, pero estoy en búsqueda de entusiastas que quieran sumarse y ayudar a llevar FormFlow al siguiente nivel.
-
-Si eres de los que se apasionan mejorando la eficiencia de los flujos de trabajo y tienes ideas para nuevas características o mejoras, me encantaría que te unieras a este proyecto.
-
-Aquí te dejo algunos pasos sencillos de cómo puedes contribuir a FormFlow:
-
-1. Haz un fork del repositorio
-2. Crea una nueva rama para tus cambios
-3. Haz tus cambios
-4. Prueba tus cambios para asegurarte de que no rompen ninguna funcionalidad existente
-5. Documenta cualquier cambio en la funcionalidad o la interfaz de usuario
-6. Asegúrate de que tus cambios siguen las normas de estilo de código del proyecto
-7. Haz un pull request y proporciona una descripción detallada de tus cambios
+1. Fork the repository.
+2. Create a new branch for your changes.
+3. Make your changes.
+4. Test your changes to ensure they don't break any existing functionality.
+5. Document any changes in functionality or user interface.
+6. Ensure your changes follow the project's code style guidelines.
+7. Make a pull request and provide a detailed description of your changes.
 
 ## Roadmap
 
-Actualmente, estoy trabajando en la inclusión de las siguientes funcionalidades para FormFlow:
+Currently, I am working on incorporating the following functionalities into FormFlow:
 
-- **Mejoras en el editor**: Estoy en proceso de agregar más elementos al editor y mejorar las características de edición para proporcionar una experiencia de usuario más rica.
-- **Compartir formularios**: Estoy trabajando para habilitar la función de compartir los formularios creados y recibir respuestas.
-- **Almacenamiento de respuestas**: Las respuestas a cada formulario se almacenarán para su posterior análisis.
-- **Integración con Notion**: Para permitir un flujo de trabajo organizado, estoy planeando integrar FormFlow con Notion.
+- **Editor improvements**: I am in the process of adding more elements to the editor and enhancing editing features to provide a richer user experience.
+- **Sharing forms**: I am working to enable the functionality of sharing the created forms and receiving responses.
+- **Response storage**: Responses to each form will be stored for later analysis.
+- **Integration with Notion**: To allow an organized workflow, I am planning to integrate FormFlow with Notion.
 
-Te agradecería que tuvieras en cuenta que estas características están en desarrollo y pueden cambiar con el tiempo.
+Please note that these features are under development and may change over time.
 
-## Licencia
+## License
 
-Este proyecto está licenciado bajo la Licencia MIT - vea el archivo [LICENSE.md](LICENSE.md) para más detalles.
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for more details.
 
-## Contacto
+## Contact
 
-Soy Oscar, el desarrollador detrás de FormFlow. Si tienes alguna pregunta, sugerencia o simplemente quieres hablar sobre el proyecto, estaré encantado de escucharte. Aquí tienes varias formas de ponerse en contacto conmigo:
+I'm Oscar, the developer behind FormFlow. If you have any questions, suggestions, or just want to chat about the project, I'd be delighted to hear from you. Here are several ways to get in touch with me:
 
-- **Correo electrónico**: Puedes enviarme un correo electrónico directamente a [hello@oscar-jane.com](mailto:hello@oscar-jane.com).
-- **GitHub**: Puedes abrir un issue en mi [repositorio de GitHub](https://github.com/Oscargjane/FormFlow)
+- **Email**: You can send me an email directly at [hello@oscar-jane.com](mailto:hello@oscar-jane.com).
+- **GitHub**: You can open an issue on my [GitHub repository](https://github.com/Oscargjane/FormFlow)

@@ -28,7 +28,7 @@ const FormFieldComponent = ({ control, applyChanges }) => (
               applyChanges();
             }}
             placeholder={extraAttributes.placeholderText}
-            className="resize-none focus:outline-none focus:ring-0 border-0 rounded-none bg-transparent w-full min-h-min placeholder:text-neutral-400 placeholder:text-base text-base text-neutral-800 focus-visible:ring-offset-0 focus-visible:ring-0 "
+            className="resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 border-0 rounded-none bg-transparent w-full min-h-min placeholder:text-neutral-400 placeholder:text-base text-2xl text-neutral-800 focus-visible:ring-offset-0 focus-visible:ring-0 "
           />
         </FormControl>
       </FormItem>
