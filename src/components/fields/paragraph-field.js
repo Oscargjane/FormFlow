@@ -6,11 +6,10 @@ import { useEditor } from '@/components/hooks/use-editor.js';
 import { Textarea } from '@/components/ui/textarea.js';
 import { Form, FormField, FormItem, FormControl } from '@/components/ui/form.js';
 
-const type = 'ParagraphField';
+const TYPE = 'ParagraphField';
 const INITIAL_VALUE = '';
-
-const extraAttributes = {
-  label: 'Paragraph field',
+const EXTRA_ATTRIBUTES = {
+  label: 'Paragraph Field',
   placeholderText: 'Type here...',
 };
 
@@ -28,7 +27,7 @@ const FormFieldComponent = ({ control, applyChanges }) => (
               field.onChange(e.target.value);
               applyChanges();
             }}
-            placeholder={extraAttributes.placeholderText}
+            placeholder={EXTRA_ATTRIBUTES.placeholderText}
             className="resize-none focus:outline-none focus:ring-0 border-0 rounded-none bg-transparent w-full min-h-min placeholder:text-neutral-400 placeholder:text-base text-base text-neutral-800"
           />
         </FormControl>
@@ -81,12 +80,12 @@ const FormComponent = ({ elementInstance: element }) => {
 };
 
 export const ParagraphFieldFormElement = {
-  type,
+  type: TYPE,
   construct: (id) => ({
     id,
-    type,
+    type: TYPE,
     value: INITIAL_VALUE,
-    extraAttributes,
+    extraAttributes: { ...EXTRA_ATTRIBUTES },
   }),
   editorBtnElement: {
     icon: 'SquareGanttChart',

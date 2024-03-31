@@ -1,6 +1,6 @@
 import { Separator } from '@/components/ui/separator.js';
 
-const type = 'DividerField';
+const TYPE = 'DividerField';
 
 const FormEditorComponent = () => (
   <div className="w-full">
@@ -11,14 +11,14 @@ const FormEditorComponent = () => (
 const FormComponent = () => <Separator />;
 
 export const DividerFieldFormElement = {
-  type,
+  type: TYPE,
   construct: (id) => ({
     id,
-    type,
+    type: TYPE,
   }),
   editorBtnElement: {
     icon: 'Minus',
-    label: 'Separator',
+    label: 'Divider',
   },
   formEditorComponent: FormEditorComponent,
   formComponent: FormComponent,

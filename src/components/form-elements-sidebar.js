@@ -5,6 +5,7 @@ const formElementsList = [
   FormElements.TitleField,
   FormElements.ParagraphField,
   FormElements.DividerField,
+  FormElements.MultipleChoiceField,
 ];
 
 function FormElementsSidebar() {

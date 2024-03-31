@@ -6,11 +6,10 @@ import { useEditor } from '@/components/hooks/use-editor.js';
 import { Input } from '@/components/ui/input.js';
 import { Form, FormField, FormItem, FormControl } from '@/components/ui/form.js';
 
-const type = 'TitleField';
+const TYPE = 'TitleField';
 const INITIAL_VALUE = '';
-
-const extraAttributes = {
-  label: 'Title field',
+const EXTRA_ATTRIBUTES = {
+  label: 'Title Field',
   placeholderText: 'Type here...',
 };
 
@@ -27,7 +26,7 @@ const FormFieldComponent = ({ control, applyChanges }) => (
               field.onChange(e.target.value);
               applyChanges();
             }}
-            placeholder={extraAttributes.placeholderText}
+            placeholder={EXTRA_ATTRIBUTES.placeholderText}
             className="resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 border-0 rounded-none bg-transparent w-full min-h-min placeholder:text-neutral-400 placeholder:text-base text-2xl text-neutral-800 focus-visible:ring-offset-0 focus-visible:ring-0 "
           />
         </FormControl>
@@ -80,12 +79,12 @@ const FormComponent = ({ elementInstance: element }) => {
 };
 
 export const TitleFieldFormElement = {
-  type,
+  type: TYPE,
   construct: (id) => ({
     id,
-    type,
+    type: TYPE,
     value: INITIAL_VALUE,
-    extraAttributes,
+    extraAttributes: { ...EXTRA_ATTRIBUTES },
   }),
   editorBtnElement: {
     icon: 'Heading1',
