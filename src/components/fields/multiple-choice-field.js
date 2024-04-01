@@ -5,6 +5,8 @@ import { useForm } from 'react-hook-form';
 import { useEditor } from '@/components/hooks/use-editor.js';
 import { Checkbox } from '@/components/ui/checkbox.js';
 import { Input } from '@/components/ui/input.js';
+import { Button } from '@/components/ui/button.js';
+import Icon from '@/components/ui/icon.js';
 import { Form, FormField, FormItem, FormControl } from '@/components/ui/form.js';
 
 const TYPE = 'MultipleChoiceField';
@@ -28,6 +30,7 @@ const CheckboxOption = ({
   register,
   watch,
   setValue,
+  handleRemoveOption,
 }) => {
   const fieldName = `options[${index}].value`;
   register(fieldName);
@@ -37,15 +40,20 @@ const CheckboxOption = ({
     <div className="flex items-center">
       <Checkbox name={fieldName} checked={fieldValue} disabled={isEditing} />
       {isEditing ? (
-        <Input
-          name={fieldName}
-          className="ml-3 min-w-min"
-          value={fieldValue}
-          onChange={(e) => {
-            setValue(fieldName, e.target.value);
-            applyChanges();
-          }}
-        />
+        <>
+          <Button type="button" onClick={() => handleRemoveOption(index)}>
+            <Icon name="CircleX" className="w-3 h-3" />
+          </Button>
+          <Input
+            name={fieldName}
+            className="ml-3 min-w-min"
+            value={fieldValue}
+            onChange={(e) => {
+              setValue(fieldName, e.target.value);
+              applyChanges();
+            }}
+          />
+        </>
       ) : (
         <span className="ml-3">{option.value}</span>
       )}
@@ -83,11 +91,10 @@ const FormEditorComponent = ({ elementInstance: element }) => {
 
   useEffect(() => {
     reset(element.value);
-  }, [element, reset]);
+  }, [element.value, reset]);
 
   const applyChanges = useCallback(() => {
     const values = getValues();
-
     const updatedElement = {
       ...element,
       value: values,
@@ -96,6 +103,26 @@ const FormEditorComponent = ({ elementInstance: element }) => {
 
     updateElement(element.id, updatedElement);
   }, [getValues, element, updateElement]);
+
+  const handleAddOption = useCallback(() => {
+    const values = getValues();
+    const newOption = {
+      name: `option-${values.options.length + 1}`,
+      value: `Option ${values.options.length + 1}`,
+    };
+    const newValues = { ...values, options: [...values.options, newOption] };
+    reset(newValues);
+  }, [getValues, reset]);
+
+  const handleRemoveOption = useCallback(
+    (optionIndex) => {
+      const values = getValues();
+      const newOptions = values.options.filter((_, index) => index !== optionIndex);
+      const newValues = { ...values, options: newOptions };
+      reset(newValues);
+    },
+    [getValues, reset],
+  );
 
   return (
     <Form {...{ control, register, getValues, watch }}>
@@ -116,8 +143,12 @@ const FormEditorComponent = ({ elementInstance: element }) => {
               register={register}
               watch={watch}
               setValue={setValue}
+              handleRemoveOption={handleRemoveOption}
             />
           ))}
+          <Button type="button" variant="link" onClick={handleAddOption}>
+            Add option
+          </Button>
         </div>
       </form>
     </Form>
