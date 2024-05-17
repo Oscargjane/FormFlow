@@ -1,93 +1,44 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
-import { useForm } from 'react-hook-form';
+import { useCallback, useEffect, memo } from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
 import { useEditor } from '@/components/hooks/use-editor.js';
-import { Checkbox } from '@/components/ui/checkbox.js';
-import { Input } from '@/components/ui/input.js';
 import { Button } from '@/components/ui/button.js';
-import Icon from '@/components/ui/icon.js';
-import { Form, FormField, FormItem, FormControl } from '@/components/ui/form.js';
+import { Form, FormItem, FormControl } from '@/components/ui/form.js';
+import QuestionInput from '@/components/ui/question-input.js';
+import CheckboxOption from '@/components/ui/checkbox-option.js';
+import { idGenerator } from '@/lib/utils.js';
 
 const TYPE = 'MultipleChoiceField';
 const INITIAL_VALUE = {
   question: '',
   options: [
-    { name: 'option-1', value: 'Option 1' },
-    { name: 'option-2', value: 'Option 2' },
+    {
+      id: idGenerator(),
+      value: 'Option 1',
+    },
+    {
+      id: idGenerator(),
+      value: 'Option 2',
+    },
   ],
 };
+
 const EXTRA_ATTRIBUTES = {
   label: 'Multiple Choice Field',
   questionPlaceholder: 'Type your question here',
 };
 
-const CheckboxOption = ({
-  option,
-  index,
-  applyChanges,
-  isEditing,
-  register,
-  watch,
-  setValue,
-  handleRemoveOption,
-}) => {
-  const fieldName = `options[${index}].value`;
-  register(fieldName);
-  const fieldValue = watch(fieldName);
-
-  return (
-    <div className="flex items-center">
-      <Checkbox name={fieldName} checked={fieldValue} disabled={isEditing} />
-      {isEditing ? (
-        <>
-          <Button type="button" onClick={() => handleRemoveOption(index)}>
-            <Icon name="CircleX" className="w-3 h-3" />
-          </Button>
-          <Input
-            name={fieldName}
-            className="ml-3 min-w-min"
-            value={fieldValue}
-            onChange={(e) => {
-              setValue(fieldName, e.target.value);
-              applyChanges();
-            }}
-          />
-        </>
-      ) : (
-        <span className="ml-3">{option.value}</span>
-      )}
-    </div>
-  );
-};
-
-const QuestionInput = ({ control, setValue, applyChanges }) => (
-  <FormField
-    control={control}
-    name="question"
-    render={({ field }) => (
-      <FormItem>
-        <FormControl>
-          <Input
-            {...field}
-            onChange={(e) => {
-              setValue(field.name, e.target.value);
-              applyChanges();
-            }}
-            placeholder={EXTRA_ATTRIBUTES.questionPlaceholder}
-          />
-        </FormControl>
-      </FormItem>
-    )}
-  />
-);
-
-const FormEditorComponent = ({ elementInstance: element }) => {
+const FormEditorComponent = memo(({ elementInstance: element }) => {
   const { control, register, getValues, watch, setValue, reset } = useForm({
-    mode: 'onSubmit',
-    defaultValues: INITIAL_VALUE,
+    defaultValues: { options: INITIAL_VALUE.options },
   });
   const { updateElement } = useEditor();
+
+  const { fields, append, remove } = useFieldArray({
+    name: 'options',
+    control,
+  });
 
   useEffect(() => {
     reset(element.value);
@@ -95,6 +46,7 @@ const FormEditorComponent = ({ elementInstance: element }) => {
 
   const applyChanges = useCallback(() => {
     const values = getValues();
+
     const updatedElement = {
       ...element,
       value: values,
@@ -105,66 +57,75 @@ const FormEditorComponent = ({ elementInstance: element }) => {
   }, [getValues, element, updateElement]);
 
   const handleAddOption = useCallback(() => {
-    const values = getValues();
-    const newOption = {
-      name: `option-${values.options.length + 1}`,
-      value: `Option ${values.options.length + 1}`,
-    };
-    const newValues = { ...values, options: [...values.options, newOption] };
-    reset(newValues);
-  }, [getValues, reset]);
+    append({ id: idGenerator(), value: `Option ${fields.length + 1}` });
+
+    applyChanges();
+  }, [append, applyChanges]);
 
   const handleRemoveOption = useCallback(
-    (optionIndex) => {
-      const values = getValues();
-      const newOptions = values.options.filter((_, index) => index !== optionIndex);
-      const newValues = { ...values, options: newOptions };
-      reset(newValues);
+    (index) => {
+      remove(index);
+      applyChanges();
     },
-    [getValues, reset],
+    [remove, applyChanges],
   );
 
   return (
     <Form {...{ control, register, getValues, watch }}>
-      <form className="w-full">
-        <QuestionInput
-          control={control}
-          setValue={setValue}
-          applyChanges={applyChanges}
-        />
-        <div>
-          {watch('options').map((option, index) => (
-            <CheckboxOption
-              key={index}
-              isEditing={true}
-              index={index}
-              option={option}
-              applyChanges={applyChanges}
+      <form className="w-full pl-1 pr-4">
+        <FormItem>
+          <FormControl>
+            <QuestionInput
               register={register}
               watch={watch}
               setValue={setValue}
-              handleRemoveOption={handleRemoveOption}
+              applyChanges={applyChanges}
+              placeholder={EXTRA_ATTRIBUTES.questionPlaceholder}
             />
-          ))}
-          <Button type="button" variant="link" onClick={handleAddOption}>
+          </FormControl>
+        </FormItem>
+        <div className="flex flex-col items-start w-full gap-4">
+          {fields && fields.length > 0 ? (
+            fields.map((option, index) => (
+              <CheckboxOption
+                key={option.id}
+                index={index}
+                option={option}
+                control={control}
+                register={register}
+                watch={watch}
+                setValue={setValue}
+                applyChanges={applyChanges}
+                onRemove={handleRemoveOption}
+              />
+            ))
+          ) : (
+            <p className="text-neutral-500 px-3">No options</p>
+          )}
+          <Button
+            type="button"
+            variant="link"
+            onClick={handleAddOption}
+            className="text-blue-500 underline"
+          >
             Add option
           </Button>
         </div>
       </form>
     </Form>
   );
-};
+});
 
-const FormComponent = ({ elementInstance: element }) => {
-  const { value } = element;
+const FormComponent = memo(({ elementInstance: element }) => {
+  const { options } = element.value;
   return (
     <div>
-      {value.map((option, index) => (
-        <p key={index}>{option}</p>
+      {options.map(({ id, value }) => (
+        <p key={id}>{value}</p>
       ))}
     </div>
   );
-};
+});
 
 export const MultipleChoiceFieldFormElement = {
   type: TYPE,
@@ -175,7 +136,7 @@ export const MultipleChoiceFieldFormElement = {
     extraAttributes: { ...EXTRA_ATTRIBUTES },
   }),
   editorBtnElement: {
-    icon: 'SquareGanttChart',
+    icon: 'CircleEllipsis',
     label: 'Multiple Choice',
   },
   formEditorComponent: FormEditorComponent,
