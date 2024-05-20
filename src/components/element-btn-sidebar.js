@@ -39,4 +39,6 @@ const SidebarBtnElement = memo(({ formElement }) => {
   );
 });
 
+SidebarBtnElement.displayName = 'SidebarBtnElement';
+
 export default SidebarBtnElement;
