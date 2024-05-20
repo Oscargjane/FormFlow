@@ -18,10 +18,6 @@ const EXTRA_ATTRIBUTES = {
 };
 
 const FormEditorComponent = memo(({ elementInstance: element }) => {
-  if (!element || !element.value) {
-    return null;
-  }
-
   const { control, getValues, setValue, register, watch, reset } = useForm({
     mode: 'onSubmit',
     defaultValues: INITIAL_VALUE,
@@ -30,11 +26,15 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
 
   useEffect(() => {
     reset(
-      element.value && element.value.answer !== undefined ? element.value : INITIAL_VALUE,
+      element && element.value && element.value.answer !== undefined
+        ? element.value
+        : INITIAL_VALUE,
     );
-  }, [element.value, reset]);
+  }, [element, reset]);
 
   const applyChanges = useCallback(() => {
+    if (!element) return;
+
     const values = getValues();
     const updatedElement = {
       ...element,
@@ -53,6 +53,10 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
     setValue(fieldName, e.target.value);
     applyChanges();
   };
+
+  if (!element || !element.value) {
+    return null;
+  }
 
   return (
     <Form {...{ control, register, getValues, watch }}>
@@ -84,12 +88,14 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
   );
 });
 
+FormEditorComponent.displayName = 'FormEditorComponent';
+
 const FormComponent = memo(({ elementInstance: element }) => {
   if (!element || !element.value) {
     return null;
   }
 
-  const { question, answer } = element.value;
+  const { question, answer } = element ? element.value : {};
 
   return (
     <div className="p-4 border rounded shadow-sm bg-white">
@@ -98,6 +104,8 @@ const FormComponent = memo(({ elementInstance: element }) => {
     </div>
   );
 });
+
+FormComponent.displayName = 'FormComponent';
 
 export const LongAnswerFieldFormElement = {
   type: TYPE,

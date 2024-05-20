@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button.js';
 import Icon from '@/components/ui/icon.js';
 
 const CheckboxOption = forwardRef(
-  ({ option: { id, value }, index, isEditing, control, applyChanges, onRemove }, ref) => {
+  ({ option: { value }, index, control, applyChanges, onRemove }, ref) => {
     const fieldName = `options[${index}].value`;
 
     const [isHovered, setIsHovered] = useState(false);
@@ -59,5 +59,7 @@ const CheckboxOption = forwardRef(
     );
   },
 );
+
+CheckboxOption.displayName = 'CheckboxOption';
 
 export default CheckboxOption;

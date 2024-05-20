@@ -14,10 +14,6 @@ const EXTRA_ATTRIBUTES = {
 };
 
 const FormEditorComponent = memo(({ elementInstance: element }) => {
-  if (!element || element.value === undefined) {
-    return null;
-  }
-
   const { control, getValues, setValue, register, watch, reset } = useForm({
     mode: 'onSubmit',
     defaultValues: {
@@ -35,6 +31,8 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
   }, [element.value, reset, fieldName]);
 
   const applyChanges = useCallback(() => {
+    if (!element) return;
+
     const values = getValues();
 
     const updatedElement = {
@@ -49,6 +47,10 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
     setValue(fieldName, e.target.value);
     applyChanges();
   };
+
+  if (!element || element.value == undefined) {
+    return null;
+  }
 
   return (
     <Form {...{ control, register, getValues, watch }}>
@@ -70,14 +72,18 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
   );
 });
 
+FormEditorComponent.displayName = 'FormEditorComponent';
+
 const FormComponent = memo(({ elementInstance: element }) => {
-  if (!element || element.value === undefined) {
+  if (!element || element.value == undefined) {
     return null;
   }
 
   const { value } = element;
   return <p>{value}</p>;
 });
+
+FormComponent.displayName = 'FormComponent';
 
 export const ParagraphFieldFormElement = {
   type: TYPE,

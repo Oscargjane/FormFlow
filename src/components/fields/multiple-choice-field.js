@@ -45,6 +45,8 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
   }, [element.value, reset]);
 
   const applyChanges = useCallback(() => {
+    if (!element) return;
+
     const values = getValues();
 
     const updatedElement = {
@@ -60,7 +62,7 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
     append({ id: idGenerator(), value: `Option ${fields.length + 1}` });
 
     applyChanges();
-  }, [append, applyChanges]);
+  }, [append, fields.length, applyChanges]);
 
   const handleRemoveOption = useCallback(
     (index) => {
@@ -69,6 +71,10 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
     },
     [remove, applyChanges],
   );
+
+  if (!element || element.value == undefined) {
+    return null;
+  }
 
   return (
     <Form {...{ control, register, getValues, watch }}>
@@ -116,7 +122,13 @@ const FormEditorComponent = memo(({ elementInstance: element }) => {
   );
 });
 
+FormEditorComponent.displayName = 'FormEditorComponent';
+
 const FormComponent = memo(({ elementInstance: element }) => {
+  if (!element || element.value == undefined) {
+    return null;
+  }
+
   const { options } = element.value;
   return (
     <div>
@@ -126,6 +138,8 @@ const FormComponent = memo(({ elementInstance: element }) => {
     </div>
   );
 });
+
+FormComponent.displayName = 'FormComponent';
 
 export const MultipleChoiceFieldFormElement = {
   type: TYPE,
