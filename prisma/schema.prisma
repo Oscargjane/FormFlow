@@ -1,20 +1,86 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider = "postgresql"
-    url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+        
+
+model User {
+  id              Int              @id @default(autoincrement())
+  name            String
+  email           String           @unique
+  notionToken     String           @unique
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  notionDatabases NotionDatabase[]
+  forms           Form[]
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model NotionDatabase {
+  id              Int              @id @default(autoincrement())
+  notionId        String           @unique
+  name            String
+  userId          Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
 
-    @@index([name])
+  user            User             @relation(fields: [userId], references: [id])
+  forms           Form[]
+}
+
+model Form {
+  id              Int              @id @default(autoincrement())
+  name            String
+  notionDatabaseId Int
+  userId          Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  notionDatabase  NotionDatabase   @relation(fields: [notionDatabaseId], references: [id])
+  user            User             @relation(fields: [userId], references: [id])
+  logicRules      LogicRule[]
+  validations     ValidationRule[]
+  responses       FormResponse[]
+}
+
+model LogicRule {
+  id              Int              @id @default(autoincrement())
+  type            String           // Ej: "show_if", "hide_if", "require_if"
+  conditions      Json             // Condiciones para aplicar la regla
+  actions         Json             // Acciones a ejecutar si se cumple la condición
+  formId          Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  form            Form             @relation(fields: [formId], references: [id])
+}
+
+model ValidationRule {
+  id              Int              @id @default(autoincrement())
+  fieldName       String           // Campo del formulario al que aplica la validación
+  ruleType        String           // Ej: "required", "min_length", "regex"
+  parameters      Json             // Parámetros de la validación (ej: { min: 3, max: 10 })
+  errorMessage    String           // Mensaje de error personalizado
+  formId          Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  form            Form             @relation(fields: [formId], references: [id])
+}
+
+model FormResponse {
+  id              Int              @id @default(autoincrement())
+  data            Json
+  isValid         Boolean
+  errors          Json?
+  formId          Int
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+
+  form            Form             @relation(fields: [formId], references: [id])
 }
