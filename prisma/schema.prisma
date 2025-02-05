@@ -1,16 +1,18 @@
 generator client {
   provider = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+  extensions = [pgcrypto]
 }
-        
 
+// Model for users  
 model User {
-  id              Int              @id @default(autoincrement())
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
   email           String           @unique
   notionToken     String           @unique
@@ -21,11 +23,12 @@ model User {
   forms           Form[]
 }
 
+// Model for Notion databases
 model NotionDatabase {
-  id              Int              @id @default(autoincrement())
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   notionId        String           @unique
   name            String
-  userId          Int
+  userId          String           @db.Uuid
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
@@ -33,11 +36,12 @@ model NotionDatabase {
   forms           Form[]
 }
 
+// Model for forms
 model Form {
-  id              Int              @id @default(autoincrement())
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   name            String
-  notionDatabaseId Int
-  userId          Int
+  notionDatabaseId String          @db.Uuid
+  userId          String           @db.Uuid
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
@@ -48,37 +52,40 @@ model Form {
   responses       FormResponse[]
 }
 
+// Model for logic rules in forms
 model LogicRule {
-  id              Int              @id @default(autoincrement())
-  type            String           // Ej: "show_if", "hide_if", "require_if"
-  conditions      Json             // Condiciones para aplicar la regla
-  actions         Json             // Acciones a ejecutar si se cumple la condición
-  formId          Int
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  type            String           // E.g, "show_if", "hide_if", "require_if"
+  conditions      Json             // Conditions to apply the rule
+  actions         Json             // Actions to execute if the condition is met
+  formId          String           @db.Uuid
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
   form            Form             @relation(fields: [formId], references: [id])
 }
 
+// Model for validation rules in forms
 model ValidationRule {
-  id              Int              @id @default(autoincrement())
-  fieldName       String           // Campo del formulario al que aplica la validación
-  ruleType        String           // Ej: "required", "min_length", "regex"
-  parameters      Json             // Parámetros de la validación (ej: { min: 3, max: 10 })
-  errorMessage    String           // Mensaje de error personalizado
-  formId          Int
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  fieldName       String           // Field in the form to which the validation applies
+  ruleType        String           // E.g., "required", "min_length", "regex"
+  parameters      Json             // Validation parameters (e.g., { min: 3, max: 10 })
+  errorMessage    String           // Custom error message
+  formId          String           @db.Uuid
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
   form            Form             @relation(fields: [formId], references: [id])
 }
 
+// Model for form responses
 model FormResponse {
-  id              Int              @id @default(autoincrement())
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   data            Json
   isValid         Boolean
   errors          Json?
-  formId          Int
+  formId          String           @db.Uuid
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
