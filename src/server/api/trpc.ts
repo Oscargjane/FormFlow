@@ -1,33 +1,27 @@
-/**
- * tRPC Configuration.
- * Edit only if you need to modify the request context or add new middleware/procedures.
- */
-import { initTRPC } from "@trpc/server";
+import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
+import { auth } from "@/server/auth/config";
 import { db } from "@/server/db";
 
 /**
- * 1. CONTEXT
- *
- * Defines the available contexts for the backend API.
- * These contexts provide access to resources (e.g., database, headers) during each request.
- *
- * @see https://trpc.io/docs/server/context
+ * Defines the tRPC request context, providing access to the database and user session.
  */
 export const createTRPCContext = async (opts: { headers: Headers }) => {
+  const session = await auth()
   return {
     db,
+    session,
     ...opts,
   };
 };
 
 /**
- * 2. INITIALIZATION
- *
- * Initializes the tRPC API by connecting the context and setting up the transformer.
- * It also formats errors (including Zod errors) to maintain type-safety on the frontend.
+ * Initializes tRPC with:
+ * - Context (database, authentication)
+ * - SuperJSON serialization for enhanced data handling
+ * - Custom error formatting (Zod validation support)
  */
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
@@ -43,32 +37,15 @@ const t = initTRPC.context<typeof createTRPCContext>().create({
   },
 });
 
-/**
- * Create a server-side caller factory.
- *
- * @see https://trpc.io/docs/server/server-side-calls
- * This allows you to call your tRPC procedures directly from the server (useful for SSR or testing).
- */
+/** Enables direct server-side calls to tRPC procedures (SSR, testing). */
 export const createCallerFactory = t.createCallerFactory;
 
-/**
- * 3. ROUTER & PROCEDURE
- *
- * These components are used to build your tRPC API. You'll frequently import these in the
- * "/src/server/api/routers" directory.
- *
- * @see https://trpc.io/docs/router
- */
-
-/**
- * Creates new routers and sub-routers in your tRPC API.
- * Routers help you group related endpoints together.
- */
+/** Creates a new tRPC router for API endpoints. */
 export const createTRPCRouter = t.router;
 
 /**
- * Middleware for timing procedure execution and simulating an artificial delay during development.
- * This can help detect performance issues (e.g., waterfalls) that might not appear in production.
+ * Middleware to measure procedure execution time.
+ * In development mode, it introduces a random delay (100-500ms) to simulate network latency.
  */
 const timingMiddleware = t.middleware(async ({ next, path }) => {
   const start = Date.now();
@@ -87,9 +64,19 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
   return result;
 });
 
-/**
- * Public (unauthenticated) procedure.
- * This is the base building block for creating queries and mutations on your tRPC API.
- * It does not enforce authentication but still provides access to shared context data.
- */
+/** Public procedures (accessible to all users). */
 export const publicProcedure = t.procedure.use(timingMiddleware);
+
+/** Protected procedures (authentication required). */
+export const protectedProcedure = t.procedure
+  .use(timingMiddleware)
+  .use(({ ctx, next }) => {
+    if (!ctx.session?.user) {
+      throw new TRPCError({ code: "UNAUTHORIZED" });
+    }
+    return next({
+      ctx: {
+        session: { ...ctx.session, user: ctx.session.user },
+      },
+    });
+  });

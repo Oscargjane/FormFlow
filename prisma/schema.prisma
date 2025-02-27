@@ -10,17 +10,50 @@ datasource db {
   extensions = [pgcrypto]
 }
 
-// Model for users  
+// Model for users
 model User {
   id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name            String
-  email           String           @unique
-  notionToken     String           @unique
+  name            String?
+  email           String?          @unique
+  emailVerified   DateTime?
+  image           String?
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
 
+  accounts        Account[]
+  sessions        Session[]
   notionDatabases NotionDatabase[]
   forms           Form[]
+}
+
+// Model for accounts
+model Account {
+  id                String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId            String  @db.Uuid
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+// Model for sessions
+model Session {
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  sessionToken    String           @unique
+  userId          String           @db.Uuid
+  expires         DateTime
+
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 // Model for Notion databases
@@ -55,12 +88,12 @@ model Form {
 // Model for logic rules in forms
 model LogicRule {
   id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  type            String           // E.g, "show_if", "hide_if", "require_if"
+  type            String           // E.g., "show_if", "hide_if", "require_if"
   conditions      Json             // Conditions to apply the rule
   actions         Json             // Actions to execute if the condition is met
   formId          String           @db.Uuid
   createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  updatedAt       DateTime         @default(now())
 
   form            Form             @relation(fields: [formId], references: [id])
 }
@@ -74,7 +107,7 @@ model ValidationRule {
   errorMessage    String           // Custom error message
   formId          String           @db.Uuid
   createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  updatedAt       DateTime         @default(now())
 
   form            Form             @relation(fields: [formId], references: [id])
 }
@@ -87,7 +120,7 @@ model FormResponse {
   errors          Json?
   formId          String           @db.Uuid
   createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
+  updatedAt       DateTime         @default(now())
 
   form            Form             @relation(fields: [formId], references: [id])
 }
