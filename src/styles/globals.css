@@ -1,3 +1,47 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Global color variables following Tailwind's HSL format */
+    --background: 240 3% 16%; /* #27272A - Main background color */
+    --foreground: 0 0% 98%; /* Text color on dark backgrounds */
+    
+    --card: 240 3% 19%; /* Slightly lighter than background for cards */
+    --card-foreground: 0 0% 98%; /* Text color for cards */
+    
+    --popover: 240 3% 19%; /* Background for popovers */
+    --popover-foreground: 0 0% 98%; /* Text color for popovers */
+    
+    --primary: 262 83% 76%; /* #A78BFA - Main purple accent */
+    --primary-foreground: 210 40% 98%; /* Text color for primary elements */
+    
+    --secondary: 213 92% 67%; /* #5FA5F9 - Secondary blue accent */
+    --secondary-foreground: 210 40% 98%; /* Text color for secondary elements */
+    
+    --muted: 240 3% 22%; /* Muted backgrounds */
+    --muted-foreground: 240 5% 65%; /* Muted text color */
+    
+    --accent: 240 3% 22%; /* Accent backgrounds */
+    --accent-foreground: 0 0% 98%; /* Accent text color */
+    
+    --destructive: 0 62.8% 30.6%; /* Error or warning states */
+    --destructive-foreground: 0 0% 98%; /* Text on destructive elements */
+    
+    --border: 240 3% 25%; /* Default border color */
+    --input: 240 3% 25%; /* Input border color */
+    --ring: 240 4.9% 83.9%; /* Focus ring color */
+
+    --radius: 0.75rem; /* Default border radius */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border; /* Apply default border color globally */
+  }
+  body {
+    @apply bg-background text-foreground; /* Set background and text color globally */
+  }
+}
